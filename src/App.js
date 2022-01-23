@@ -1,10 +1,31 @@
-import { FormControl, MenuItem, Select } from "@material-ui/core";
-import React, { useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [country, setCountry] = useState(["USA", "UK", "India"]);
-  console.log(country);
+  const [countries, setCountries] = useState([]);
+  const [country, setCountry] = useState("Worldwide");
+
+  useEffect(() => {
+    const getDataFromApi = async () => {
+      const response = await axios.get(
+        "https://disease.sh/v3/covid-19/countries"
+      );
+      console.log(response.data.country);
+      const countries = response.data.map((country) => ({
+        name: country.country,
+        value: country.countryInfo.iso2,
+      }));
+      setCountries(countries);
+    };
+    getDataFromApi();
+  }, []);
+
+  const onCountryChange = (event) => {
+    setCountry(event.target.value);
+  };
+
   return (
     <div className="App">
       <h2>
@@ -12,10 +33,19 @@ function App() {
       </h2>
       <div className="app__header">
         <h1>Covid 19 Tracker</h1>
-        <FormControl>
-          <Select variant="outlined" value="abc">
-            {country.map((country) => {
-              return <MenuItem vlaue={country}>{country}</MenuItem>;
+
+        <FormControl variant="outlined">
+          <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+          <Select
+            labelId="demo-simple-select-outlined-label"
+            id="demo-simple-select-outlined"
+            onChange={onCountryChange}
+            value={country}
+          >
+            {countries.map((countrye) => {
+              return (
+                <MenuItem value={countrye.value}>{countrye.name}</MenuItem>
+              );
             })}
           </Select>
         </FormControl>
