@@ -3,9 +3,39 @@
   padding: 0;
   box-sizing: border-box;
 }
+.app {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 2rem;
+}
+.app__leftBox {
+  flex: 0.9;
+}
+.app__rightBox {
+  /* width: 500px; */
+  margin-left: 1rem;
+}
 .app__header {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 0.8rem;
+}
+.infoBox {
+  width: fit-content;
+  margin: 0.7rem 0;
+}
+.app__coronaInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.infoBox_cases {
+  margin-bottom: 0.8rem;
+}
+@media only screen and (max-width: 990px) {
+  .app {
+    flex-direction: column;
+  }
 }
